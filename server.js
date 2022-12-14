@@ -1,11 +1,11 @@
-/**/
+const port = process.env.PORT || 8080
 const WebSocket = require('ws');
 
 // Create a new WebSocket server
 const wss = new WebSocket.Server({
-  port: 8080
+  port: port
 },()=>{
-  console.log("ws server listening at port 8080")
+  console.log("ws server listening at port "+port)
 });
 
 // Keep track of all connected clients
@@ -42,4 +42,4 @@ app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,"index.html"))
 })
 
-app.listen(8090,()=>{console.log(`app listening at port 8090`)})
+app.listen(port+1,()=>{console.log(`app listening at port ${port+1}`)})
