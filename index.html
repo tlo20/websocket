@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App</title>
+</head>
+<body>
+  <h1>Chat App</h1>
+  <form id="chat-form">
+    <input type="text" id="message-input" placeholder="Enter your message...">
+    <button type="submit">Send</button>
+  </form>
+  <ul id="message-list"></ul>
+  <script>
+    // Connect to the WebSocket server
+    const socket = new WebSocket('ws://localhost:8080');
+
+    // Reference to the chat form and message list elements
+    const chatForm = document.getElementById('chat-form');
+    const messageList = document.getElementById('message-list');
+
+    // Handle form submission
+    chatForm.addEventListener('submit', event => {
+      event.preventDefault();
+
+      // Get the message input element and the message text
+      const messageInput = document.getElementById('message-input');
+      const message = messageInput.value;
+
+      // Send the message to the server
+      socket.send(message);
+
+      // Clear the message input field
+      messageInput.value = '';
+    });
+
+    // Handle incoming messages from the server
+    socket.addEventListener('message', event => {
+      const message = event.data;
+
+      // Create a new list item to display the message
+      const listItem = document.createElement('li');
+      listItem.textContent = message;
+
+      // Add the new list item to the message list
+      messageList.appendChild(listItem);
+    });
+  </script>
+</body>
+</html>
